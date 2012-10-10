@@ -1,18 +1,23 @@
 [user]
   name = Rohit Yadav
   email = bhaisaab@baagi.org
+  signingkey = 60B65620
 
-[giggle]
-  main-window-maximized = false
-  main-window-geometry = 793x741+170+86
-  history-view-vpane-position = 435
-  main-window-view = HistoryView
-  file-view-vpane-position = 674
+[credential]
+  helper = osxkeychain
 
 [core]
 #  gitproxy = gitproxy
   autocrlf = input
   whitespace = trailing-space,space-before-tab
+  excludesfile = ~/.gitignore
+  editor = vim
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
 
 [apply]
   whitespace = fix
@@ -24,9 +29,10 @@
   co = checkout
   cp = cherry-pick
   df = diff --color
-  lg = log -p
+  lg = log -p --show-signature
   hist = log --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short
   lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  rank = shortlog -sn
 
 [format]
   signoff = true
@@ -47,3 +53,5 @@
 # smtpencryption = tls
 # smtpuser = rohityadav89@gmail.com
 
+[usre]
+	signingkey = 60B65620

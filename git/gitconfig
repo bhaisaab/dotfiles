@@ -22,6 +22,9 @@
 [apply]
   whitespace = fix
 
+[commit]
+  template = ~/.gitmessage
+
 [alias]
   st = status
   ci = commit
@@ -54,7 +57,3 @@
 # smtpencryption = tls
 # smtpuser = rohityadav89@gmail.com
 
-[usre]
-	signingkey = 60B65620
-[commit]
-	template = /Users/citrix/.gitmessage

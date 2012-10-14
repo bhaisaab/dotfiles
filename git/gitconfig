@@ -1,7 +1,7 @@
 [user]
   name = Rohit Yadav
-  email = bhaisaab@baagi.org
-  signingkey = 60B65620
+  email = bhaisaab@apache.org
+  signingkey =
 
 [credential]
   helper = osxkeychain
@@ -28,6 +28,7 @@
   br = branch
   co = checkout
   cp = cherry-pick
+  cm = commit -s
   df = diff --color
   lg = log -p --show-signature
   hist = log --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short
@@ -55,3 +56,5 @@
 
 [usre]
 	signingkey = 60B65620
+[commit]
+	template = /Users/citrix/.gitmessage

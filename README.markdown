@@ -14,5 +14,6 @@ Create symlinks: (export SRC_ROOT=`pwd`)
     ln -sf $SRC_ROOT/irssi ~/.irssi
     ln -sf $SRC_ROOT/muttrc ~/.muttrc
     ln -sf $SRC_ROOT/muttrc-colors ~/.muttrc-colors
-    ln -sf $SRC_ROOT/gitconfig ~/.gitconfig
+    ln -sf $SRC_ROOT/git/gitconfig ~/.gitconfig
+    ln -sf $SRC_ROOT/git/gitmessage ~/.gitmessage
 

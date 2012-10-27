@@ -3,7 +3,7 @@ Installation
     git clone git://github.com/bhaisaab/dotfiles.git
     git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
-Create symlinks: (export SRC_ROOT=`pwd`)
+Create symlinks: (export SRC_ROOT=$PWD)
 
     ln -sf $SRC_ROOT/aliasrc ~/.aliasrc
     ln -sf $SRC_ROOT/dir-colors ~/.dircolors
@@ -17,7 +17,7 @@ Create symlinks: (export SRC_ROOT=`pwd`)
     ln -sf $SRC_ROOT/git/gitconfig ~/.gitconfig
     ln -sf $SRC_ROOT/git/gitmessage ~/.gitmessage
 
-To uninstall: (cd <path/to/dotfiles>; export SRC_ROOT=`pwd`)
+To uninstall: (cd <path/to/dotfiles>; export SRC_ROOT=$PWD)
 
     rm -sf $SRC_ROOT/aliasrc ~/.aliasrc
     rm -sf $SRC_ROOT/dir-colors ~/.dircolors

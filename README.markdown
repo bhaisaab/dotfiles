@@ -19,15 +19,15 @@ Create symlinks: (export SRC_ROOT=$PWD)
 
 To uninstall: (cd <path/to/dotfiles>; export SRC_ROOT=$PWD)
 
-    rm -sf $SRC_ROOT/aliasrc ~/.aliasrc
-    rm -sf $SRC_ROOT/dir-colors ~/.dircolors
-    rm -sf $SRC_ROOT/zshrc.zsh ~/.zshrc
-    rm -sf $SRC_ROOT/bashrc ~/.bashrc
-    rm -sf $SRC_ROOT/vimrc ~/.vimrc
-    rm -sf $SRC_ROOT/vim ~/.vim
-    rm -sf $SRC_ROOT/irssi ~/.irssi
-    rm -sf $SRC_ROOT/muttrc ~/.muttrc
-    rm -sf $SRC_ROOT/muttrc-colors ~/.muttrc-colors
-    rm -sf $SRC_ROOT/git/gitconfig ~/.gitconfig
-    rm -sf $SRC_ROOT/git/gitmessage ~/.gitmessage
+    rm -f $SRC_ROOT/aliasrc ~/.aliasrc
+    rm -f $SRC_ROOT/dir-colors ~/.dircolors
+    rm -f $SRC_ROOT/zshrc.zsh ~/.zshrc
+    rm -f $SRC_ROOT/bashrc ~/.bashrc
+    rm -f $SRC_ROOT/vimrc ~/.vimrc
+    rm -f $SRC_ROOT/vim ~/.vim
+    rm -f $SRC_ROOT/irssi ~/.irssi
+    rm -f $SRC_ROOT/muttrc ~/.muttrc
+    rm -f $SRC_ROOT/muttrc-colors ~/.muttrc-colors
+    rm -f $SRC_ROOT/git/gitconfig ~/.gitconfig
+    rm -f $SRC_ROOT/git/gitmessage ~/.gitmessage
 

@@ -30,7 +30,7 @@
   ci = commit
   br = branch
   co = checkout
-  cp = cherry-pick
+  cp = cherry-pick -x -s
   cm = commit -s
   df = diff --color
   lg = log -p --show-signature

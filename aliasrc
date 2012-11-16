@@ -1,13 +1,14 @@
-z(){ ssh -C2qTnN -D 8080 bhaisaab@baagi.org -v -p 1123;}
-zrpi(){ ssh -C2qTnN -D 8080 -v pi@49.206.174.224 -p 1123;}
-y(){ ssh bhaisaab@71.19.150.199 -Cv -p 1123; }
-prgmrband(){ ssh rohityadav@rehnquist.prgmr.com -Cv; }
-u(){ ssh bhaisaab@people.apache.org -Cv; }
-f(){ finger bhaisaab@baagi.org }
-#hyd.baagi.org
-rpi(){ ssh pi@49.206.174.224 -Cv -p 1123; }
+z() { ssh -C2qTnN -D 8080 bhaisaab@baagi.org -v -p 1123;}
+zrpi() { ssh -C2qTnN -D 8080 -v pi@49.206.174.224 -p 1123;}
+y() { ssh bhaisaab@71.19.150.199 -Cv -p 1123; }
+prgmrband() { ssh rohityadav@rehnquist.prgmr.com -Cv; }
+u() { ssh bhaisaab@people.apache.org -Cv; }
+f() { finger bhaisaab@baagi.org; }
 
-gitcount(){ git log --author=Rohit | grep Author:. | wc -l }
+#hyd.baagi.org
+rpi() { ssh pi@49.206.174.224 -Cv -p 1123; }
+
+gitcount() { git log --author=Rohit | grep Author:. | wc -l; }
 
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
 todonow() { vim /media/chandrama/Rohit/ToDos/money;}
@@ -31,13 +32,14 @@ convertmp3() {
 recordvideo() { sudo ffmpeg -f alsa -ac 1 -i hw:1,0 -f video4linux2 -s 320x240 -i /dev/video0 -r 30 stream.mpg; }
 
 scpatch() {
-  if [[ $# -eq 2 ]] then;
+  if [[ $# -eq 2 ]];
+  then
     dest=$2;
-  else;
+  else
     dest=cloudstack;
   fi;
   scp -Cv -P 1123 $1 bhaisaab@baagi.org:bhaisaab.org/patches/$dest
-};
+}
 
 if [[ `uname` == 'Linux' ]]; then
 
@@ -63,3 +65,4 @@ if [[ `uname` == 'Darwin' ]]; then
   export M2_HOME=/usr/local/apache-maven-3.0.4
   export PATH=$M2_HOME/bin:$PATH
 fi
+

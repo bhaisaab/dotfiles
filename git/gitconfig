@@ -32,6 +32,7 @@
   co = checkout
   cp = cherry-pick -x -s
   cm = commit -s
+  add-p = add -p
   df = diff --color
   lg = log -p --show-signature
   hist = log --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short

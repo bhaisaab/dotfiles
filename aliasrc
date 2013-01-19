@@ -60,6 +60,9 @@ if [[ `uname` == 'Linux' ]]; then
 fi
 
 if [[ `uname` == 'Darwin' ]]; then
+  downlogdisable() {
+    defaults write com.apple.LaunchServices LSQuarantine -bool NO;
+  }
   downlogdel() {
     sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent';
   }

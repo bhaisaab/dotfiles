@@ -1,7 +1,7 @@
 [user]
   name = Rohit Yadav
   email = bhaisaab@apache.org
-  signingkey =
+  signingkey = 0EE3D884
 
 [credential]
   helper = osxkeychain
@@ -58,3 +58,6 @@
 # smtpencryption = tls
 # smtpuser = rohityadav89@gmail.com
 
+#[filter "tabspace"]
+# smudge = expand -t 4
+# clean = expand -t 4

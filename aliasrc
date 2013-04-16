@@ -15,8 +15,25 @@ backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-b
 todonow() { vim /media/chandrama/Rohit/ToDos/money;}
 ideah() { vim /media/chandrama/Rohit/ToDos/idea;}
 
+resumeablescp() {
+# rsync -av -P -e "ssh -l username" file serverpath
+rsync -av -P -e "ssh -l bhaisaab" $*
+}
+
+todo() {
+  cur=$PWD
+  cd /Bhaisaab/Lab/todos
+  git commit --allow-empty -m "TODO: $*"
+  cd $cur
+}
+
+listtodo() {
+  cd /Bhaisaab/Lab/todos
+  tig
+}
+
 buildcloudstacklikeaboss() {
-mvn -pl `git status --porcelain |sed '/^?/d'| awk '{print $2}' |sed 's/\/src/$/'|cut -d $ -f 1|uniq |tr "\n" "," |sed 's/,$/,client/'` clean install
+mvn -pl `git status --porcelain |sed -n '/\/src/p'| awk '{print $2}' |sed 's/\/src/$/'|cut -d $ -f 1|uniq |tr "\n" "," |sed 's/,$/,client/'` clean install
 }
 
 #Multimedia hacks, mostly linux
@@ -34,6 +51,18 @@ convertmp3() {
     echo "Done: $video"
   done
 }
+convertflac() {
+  for video in *; do
+    f=`echo $video | tr ' ' '_'`
+    mv "$video" $f
+    video=$f
+    echo "processing: $video"
+    ffmpeg -i $video -f flac -ab 192000 -ar 44100 -ac 2 -vn $video.flac
+    echo "Done: $video"
+  done
+}
+
+
 recordvideo() { sudo ffmpeg -f alsa -ac 1 -i hw:1,0 -f video4linux2 -s 320x240 -i /dev/video0 -r 30 stream.mpg; }
 
 scpatch() {
@@ -75,13 +104,16 @@ if [[ `uname` == 'Darwin' ]]; then
   }
 
   export PATH=/Bhaisaab/bin:/Bhaisaab/Work/ant/bin:/opt/local/bin:/opt/local/sbin:/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:$PATH
-  export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=800m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
+  export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
   export CATALINA_HOME=/usr/local/apache-tomcat-6.0.33
   export M2_HOME=/usr/local/apache-maven-3.0.4
   export PATH=$M2_HOME/bin:$PATH
   # RVM env fix
-  export PATH=~/.rvm/bin:$PATH
+  export PATH=~/.rvm/bin:/Bhaisaab/Work/apache-cloudstack/utils/:$PATH
 fi
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 #source /Users/bhaisaab/.rvm/scripts/rvm

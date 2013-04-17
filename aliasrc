@@ -6,25 +6,19 @@ u() { ssh bhaisaab@people.apache.org -Cv; }
 zu() { ssh -C2qTnN -D 8080 -v bhaisaab@people.apache.org }
 f() { finger bhaisaab@baagi.org; }
 
-#hyd.baagi.org
-rpi() { ssh pi@49.206.174.224 -Cv -p 1123; }
-
-gitcount() { git log --author=Rohit | grep Author:. | wc -l; }
-
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
 todonow() { vim /media/chandrama/Rohit/ToDos/money;}
 ideah() { vim /media/chandrama/Rohit/ToDos/idea;}
 
 resumeablescp() {
-# rsync -av -P -e "ssh -l username" file serverpath
-rsync -av -P -e "ssh -l bhaisaab" $*
+  # rsync -av -P -e "ssh -l username" file serverpath
+  rsync -av -P -e "ssh -l bhaisaab" $*
 }
 
 todo() {
-  cur=$PWD
   cd /Bhaisaab/Lab/todos
   git commit --allow-empty -m "TODO: $*"
-  cd $cur
+  cd -
 }
 
 listtodo() {
@@ -61,7 +55,6 @@ convertflac() {
     echo "Done: $video"
   done
 }
-
 
 recordvideo() { sudo ffmpeg -f alsa -ac 1 -i hw:1,0 -f video4linux2 -s 320x240 -i /dev/video0 -r 30 stream.mpg; }
 
@@ -103,17 +96,15 @@ if [[ `uname` == 'Darwin' ]]; then
     sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent';
   }
 
-  export PATH=/Bhaisaab/bin:/Bhaisaab/Work/ant/bin:/opt/local/bin:/opt/local/sbin:/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:$PATH
+  export PATH=/Bhaisaab/bin:/Bhaisaab/bin/ant/bin:/opt/local/bin:/opt/local/sbin:/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:$PATH
   export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
-  export CATALINA_HOME=/usr/local/apache-tomcat-6.0.33
-  export M2_HOME=/usr/local/apache-maven-3.0.4
-  export PATH=$M2_HOME/bin:$PATH
+
+#  export CATALINA_HOME=/usr/local/apache-tomcat-6.0.33
+#  export M2_HOME=/usr/local/apache-maven-3.0.4
+#  export PATH=$M2_HOME/bin:$PATH
   # RVM env fix
-  export PATH=~/.rvm/bin:/Bhaisaab/Work/apache-cloudstack/utils/:$PATH
+  export PATH=~/.rvm/bin:/Bhaisaab/Lab/apache/cloudstack/utils/:$PATH
 fi
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
-#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-#source /Users/bhaisaab/.rvm/scripts/rvm

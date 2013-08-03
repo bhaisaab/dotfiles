@@ -2,15 +2,18 @@
 
 set -e
 set -x
-echo Installing dotfiles in $1
-ln -sf $1/aliasrc ~/.aliasrc
-ln -sf $1/dir-colors ~/.dircolors
-ln -sf $1/zshrc.zsh ~/.zshrc
-ln -sf $1/bashrc ~/.bashrc
-ln -sf $1/vimrc ~/.vimrc
-ln -sf $1/vim ~/.vim
-ln -sf $1/irssi ~/.irssi
-ln -sf $1/muttrc ~/.muttrc
-ln -sf $1/muttrc-colors ~/.muttrc-colors
-ln -sf $1/git/gitconfig ~/.gitconfig
-ln -sf $1/git/gitmessage ~/.gitmessage
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo Installing dotfiles from $DIR
+
+ln -sf $DIR/aliasrc ~/.aliasrc
+ln -sf $DIR/dir-colors ~/.dircolors
+ln -sf $DIR/zshrc.zsh ~/.zshrc
+ln -sf $DIR/bashrc ~/.bashrc
+ln -sf $DIR/vimrc ~/.vimrc
+ln -sf $DIR/vim ~/.vim
+ln -sf $DIR/irssi ~/.irssi
+ln -sf $DIR/muttrc ~/.muttrc
+ln -sf $DIR/muttrc-colors ~/.muttrc-colors
+ln -sf $DIR/git/gitconfig ~/.gitconfig
+ln -sf $DIR/git/gitmessage ~/.gitmessage

@@ -6,6 +6,9 @@ u() { ssh bhaisaab@people.apache.org -Cv; }
 zu() { ssh -C2qTnN -D 8080 -v bhaisaab@people.apache.org }
 f() { finger bhaisaab@baagi.org; }
 
+fmt() { echo "Fomatting using gofmt"; set -x; gofmt -tabs=false -tabwidth=4 -w $*;}
+pullmaster() { git pull --rebase origin master; }
+
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
 todonow() { vim /media/chandrama/Rohit/ToDos/money;}
 ideah() { vim /media/chandrama/Rohit/ToDos/idea;}

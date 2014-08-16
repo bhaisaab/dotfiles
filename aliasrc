@@ -1,13 +1,20 @@
 z() { ssh -C2qTnN -D 8080 bhaisaab@baagi.org -v -p 1123;}
-zrpi() { ssh -C2qTnN -D 8080 -v pi@49.206.174.224 -p 1123;}
-y() { ssh -Cv -p 1123 bhaisaab@71.19.150.199; }
-prgmrband() { ssh rohityadav@rehnquist.prgmr.com -Cv; }
-u() { ssh bhaisaab@people.apache.org -Cv; }
 zu() { ssh -C2qTnN -D 8080 -v bhaisaab@people.apache.org }
-f() { finger bhaisaab@baagi.org; }
+zhome() { ssh -C2qTnN -D 8080 -p 1009 -v pi@573.bhaisaab.org }
+sshapache() { ssh bhaisaab@people.apache.org -Cv; }
+sshbaagi() { ssh -Cv -p 1009 bhaisaab@baagi.org }
+sshhome() { ssh -Cv -p 1009 -v pi@573.bhaisaab.org }
 
 fmt() { echo "Fomatting using gofmt"; set -x; gofmt -tabs=false -tabwidth=4 -w $*;}
-pullmaster() { git pull --rebase origin master; }
+
+pull() {
+  set -x;
+  branch=master;
+  if [[ ! -z "$1" ]]; then
+    branch=$1;
+  fi
+  git pull --rebase origin $branch;
+}
 
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
 todonow() { vim /media/chandrama/Rohit/ToDos/money;}
@@ -39,14 +46,12 @@ mvn -pl `git status --porcelain |sed -n '/\/src/p'| awk '{print $2}' |sed 's/\/s
 mix() { cmus-remote -n -k 40; }
 dj() { while [ 1==1 ]; do mix; sleep 16; done }
 convertmp3() {
-  for video in $1/*.MP4; do
-    f=`echo $video | tr ' ' '_'`
-    mv "$video" $f
+    f=`echo $1 | tr ' ' '_'`
+    mv "$1" $f
     video=$f
     echo "processing: $video"
     ffmpeg -i $video -f mp3 -ab 192000 -ar 44100 -ac 2 -vn $video.mp3
     echo "Done: $video"
-  done
 }
 convertflac() {
   for video in *; do

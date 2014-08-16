@@ -12,6 +12,7 @@
   whitespace = trailing-space,space-before-tab
   excludesfile = ~/.gitignore
   editor = vim
+  ignorecase = false
 
 [color]
   diff = auto
@@ -26,6 +27,7 @@
   template = ~/.gitmessage
 
 [alias]
+  sync = pull --rebase origin master -v
   st = status
   ci = commit
   br = branch

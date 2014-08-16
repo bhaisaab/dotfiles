@@ -28,7 +28,7 @@ push() {
   if [[ ! -z "$1" ]]; then
     branch=$1;
   fi
-  git push origin $1;
+  git push origin $branch;
 }
 
 ### CloudStack hacks

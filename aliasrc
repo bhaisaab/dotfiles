@@ -1,11 +1,9 @@
-z() { ssh -C2qTnN -D 8080 bhaisaab@baagi.org -v -p 1123;}
-zu() { ssh -C2qTnN -D 8080 -v bhaisaab@people.apache.org }
-zhome() { ssh -C2qTnN -D 8080 -p 1009 -v pi@573.bhaisaab.org }
+z() { ssh -C2qTnN -D 8080 bhaisaab@baagi.org -v -p 1123; }
+zu() { ssh -C2qTnN -D 8080 -v bhaisaab@people.apache.org; }
+zhome() { ssh -C2qTnN -D 8080 -p 1009 -v pi@573.bhaisaab.org; }
 sshapache() { ssh bhaisaab@people.apache.org -Cv; }
-sshbaagi() { ssh -Cv -p 1009 bhaisaab@baagi.org }
-sshhome() { ssh -Cv -p 1009 -v pi@573.bhaisaab.org }
-
-fmt() { echo "Fomatting using gofmt"; set -x; gofmt -tabs=false -tabwidth=4 -w $*;}
+sshbaagi() { ssh -Cv -p 1009 bhaisaab@baagi.org; }
+sshhome() { ssh -Cv -p 1009 -v pi@573.bhaisaab.org; }
 
 ### Git helpers
 

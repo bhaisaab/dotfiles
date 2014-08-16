@@ -7,6 +7,12 @@ sshhome() { ssh -Cv -p 1009 -v pi@573.bhaisaab.org }
 
 fmt() { echo "Fomatting using gofmt"; set -x; gofmt -tabs=false -tabwidth=4 -w $*;}
 
+### Git helpers
+
+st () {
+  git status
+}
+
 pull() {
   set -x;
   branch=master;
@@ -25,9 +31,14 @@ push() {
   git push origin $1;
 }
 
+### CloudStack hacks
+
+buildacsfast() {
+  set -x;
+  mvn -pl `git status --porcelain |sed -n '/\/src/p'| awk '{print $2}' |sed 's/\/src/$/'|cut -d $ -f 1|uniq |tr "\n" "," |sed 's/,$/,client/'` clean install
+}
+
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
-todonow() { vim /media/chandrama/Rohit/ToDos/money;}
-ideah() { vim /media/chandrama/Rohit/ToDos/idea;}
 
 resumeablescp() {
   # rsync -av -P -e "ssh -l username" file serverpath
@@ -40,14 +51,6 @@ todo() {
   cd -
 }
 
-listtodo() {
-  cd /Bhaisaab/Lab/todos
-  tig
-}
-
-buildcloudstacklikeaboss() {
-mvn -pl `git status --porcelain |sed -n '/\/src/p'| awk '{print $2}' |sed 's/\/src/$/'|cut -d $ -f 1|uniq |tr "\n" "," |sed 's/,$/,client/'` clean install
-}
 
 #Multimedia hacks, mostly linux
 #nohup cmus &

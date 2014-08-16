@@ -109,5 +109,12 @@ if [[ `uname` == 'Darwin' ]]; then
   export PATH=~/.rvm/bin:/Bhaisaab/Lab/apache/cloudstack/utils/:/Bhaisaab/bin/arcanist/bin/:$PATH
 fi
 
+export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M"
+export GOROOT=/usr/local/go
+export GOPATH=/Bhaisaab/Lab/golang/
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin/
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

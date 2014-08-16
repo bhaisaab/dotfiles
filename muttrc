@@ -1,15 +1,5 @@
-#set imap_pass = ""
-#set smtp_pass = ""
-set imap_user = "bhaisaab@baagi.org"
-set smtp_url = "smtp://bhaisaab@baagi.org:25"
-
-set spoolfile = "imaps://baagi.org:993"
-set imap_idle = yes
-
-mailboxes = +INBOX
-
-set hostname = "baagi.org"
-set realname = 'bhaisaab'
+set imap_pass = ""
+set smtp_pass = ""
 set from = "bhaisaab@baagi.org"
 set use_from = yes
 set realname = "Rohit Yadav"

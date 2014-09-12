@@ -40,7 +40,7 @@
   hist = log --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short
   lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
   rank = shortlog -sn
-  rankdomain = !sh -c "pwd | git log --format='%aE' | cut -d '@' -f 2 | sort | uniq -c | sort -r | more"
+  rankdomain = !sh -c "pwd | git log --format='%aE' | cut -d '@' -f 2 | sort | uniq -c | sort -gr | more"
 
 [format]
   signoff = true

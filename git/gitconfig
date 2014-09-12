@@ -42,6 +42,7 @@
   rank = shortlog -sn
   rankp = !sh -c "pwd | git log --format='%aN' | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
   rankdomain = !sh -c "pwd | git log --format='%aE' | cut -d '@' -f 2 | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
+  rankdomainsincegraduation = !sh -c "pwd | git log --format='%aE' --after={2013-03-20} | cut -d '@' -f 2 | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' --after={2013-03-20} | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
 
 [format]
   signoff = true

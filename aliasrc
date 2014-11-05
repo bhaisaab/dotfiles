@@ -86,23 +86,6 @@ scpatch() {
   scp -Cv -P 1123 $1 bhaisaab@baagi.org:bhaisaab.org/patches/$dest
 }
 
-if [[ `uname` == 'Linux' ]]; then
-
-  userl=`ps aux | grep ssh | grep priv | wc -l`
-  if [ $userl -gt 0 ]
-  then
-    `echo "ALERT someone has remotely logged in" | festival --tts` &
-  fi
-
-  export ANDROID_NDK=/home/rohit/android-ndk/
-  export ANDROID_SDK=/home/rohit/android-sdk/
-  export PATH=/var/lib/gems/1.8/bin/:$PATH
-  export PATH="/usr/local/lib/node:$PATH"
-  export PATH="/home/rohit/bin:/home/rohit/Lab/videolan/vlc/include:/home/rohit/Lab/videolan/vlc/build/lib/.libs:/home/rohit/Lab/videolan/vlc/build/src/.libs/:$PATH"
-  export VLC_PLUGIN_PATH=/home/rohit/Lab/videolan/vlc/build/
-
-fi
-
 if [[ `uname` == 'Darwin' ]]; then
   downlogdisable() {
     defaults write com.apple.LaunchServices LSQuarantine -bool NO;

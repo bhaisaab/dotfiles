@@ -11,6 +11,19 @@ st () {
   git status
 }
 
+asciidiff() {
+  root=$PWD;
+  src=$1;
+  dest=$2;
+  cd $src;
+  for file in $(find . -type f -exec file {} + | grep text | awk '{print substr($1, 0, length($1)-1)}' | grep -v jar)
+  do
+    echo diffing file: $file
+    diff -Naur $file $dest/$file;
+  done
+  cd $root;
+}
+
 pull() {
   set -x;
   branch=master;

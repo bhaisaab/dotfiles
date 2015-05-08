@@ -43,6 +43,7 @@
   rankp = !sh -c "pwd | git log --format='%aN' | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
   rankdomain = !sh -c "pwd | git log --format='%aE' | cut -d '@' -f 2 | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
   rankdomainsincegraduation = !sh -c "pwd | git log --format='%aE' --after={2013-03-20} | cut -d '@' -f 2 | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' --after={2013-03-20} | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
+  pr= "!apply_pr() { rm -f githubpr.patch; wget $1.patch -O githubpr.patch --no-check-certificate; git am -s githubpr.patch; rm -f githubpr.patch; pr_num=$(echo $1 | sed 's/.*pull\\///'); git log -1 --pretty=%B > prmsg.txt; echo \"This closes #$pr_num\" >> prmsg.txt; git commit --amend -m \"$(cat prmsg.txt)\"; rm prmsg.txt; }; apply_pr"
 
 [format]
   signoff = true

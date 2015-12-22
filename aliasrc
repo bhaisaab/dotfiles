@@ -16,10 +16,11 @@ asciidiff() {
   src=$1;
   dest=$2;
   cd $src;
+  echo "started at $root, moved into $src; diffing against $dest";
   for file in $(find . -type f -exec file {} + | grep text | awk '{print substr($1, 0, length($1)-1)}' | grep -v jar)
   do
-    echo diffing file: $file
-    diff -Naur $file $dest/$file;
+    echo diffing file: $file between $PWD/ and $dest/
+    diff -Naur $root/$src/$file $root/$dest/$file;
   done
   cd $root;
 }

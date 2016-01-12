@@ -1,6 +1,6 @@
 [user]
   name = Rohit Yadav
-  email = rohit@scaleninja.com
+  email = rohit.yadav@shapeblue.com
   signingkey = 0EE3D884
 
 [credential]
@@ -27,19 +27,18 @@
   template = ~/.gitmessage
 
 [alias]
-  sync = pull --rebase origin master -v
-  st = status
-  ci = commit
+  a = add -p
+  c = commit -s
+  p = pull --rebase -v origin master
+  st = status -sb
   br = branch
   co = checkout
   cp = cherry-pick -x -s
-  cm = commit -s
-  add-p = add -p
   df = diff --color
+  dc = diff --cached --color
   lg = log -p --show-signature
-  hist = log --pretty=format:\"%h %ad | [%an] %s%d\" --graph --date=short
-  lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  rank = shortlog -sn
+  hist = log --graph --pretty='format:%C(red)%d%C(reset) %C(yellow)%h%C(reset) %ar %C(green)%aN%C(reset) %s'
+  rank = shortlog -sn --no-merges
   rankp = !sh -c "pwd | git log --format='%aN' | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
   rankdomain = !sh -c "pwd | git log --format='%aE' | cut -d '@' -f 2 | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"
   rankdomainsincegraduation = !sh -c "pwd | git log --format='%aE' --after={2013-03-20} | cut -d '@' -f 2 | sort | uniq -c | sort -gr | awk -v CONVFMT=%.4g '{\"git log --format='%aE' --after={2013-03-20} | wc -l\"|getline COMMITS}; {print $0 \" (\" ($1 * 100 / COMMITS) \"%)\"}' | more"

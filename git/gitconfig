@@ -4,7 +4,7 @@
   signingkey = 0EE3D884
 
 [credential]
-  helper = osxkeychain
+  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 
 [core]
 #  gitproxy = gitproxy

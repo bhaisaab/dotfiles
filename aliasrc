@@ -11,15 +11,14 @@ st () {
   git status
 }
 
-asciidiff() {
+daff() {
   root=$PWD;
   src=$1;
-  dest=$2;
+  dest=$(readlink -m $2);
   cd $src;
   echo "started at $root, moved into $src; diffing against $dest";
   for file in $(find . -type f -exec file {} + | grep text | awk '{print substr($1, 0, length($1)-1)}' | grep -v jar)
   do
-    echo diffing file: $file between $PWD/ and $dest/
     diff -Naur $root/$src/$file $root/$dest/$file;
   done
   cd $root;
@@ -53,11 +52,39 @@ push() {
   git push origin $branch;
 }
 
+dumpdb() {
+  set -x
+  mysqldump -u root  cloud > cloud.sql
+  mysqldump -u root  cloud_usage > cloud_usage.sql
+  mysqldump -u root  cloudbridge > cloudbridge.sql
+}
+
+loaddb() {
+  set -x
+  mysql -u root cloud < cloud.sql
+  mysql -u root cloud_usage < cloud_usage.sql
+  mysql -u root cloudbridge < cloudbridge.sql
+}
+
 ### CloudStack hacks
 
 buildacsfast() {
   set -x;
   mvn -pl `git status --porcelain |sed -n '/\/src/p'| awk '{print $2}' |sed 's/\/src/$/'|cut -d $ -f 1|uniq |tr "\n" "," |sed 's/,$/,client/'` clean install
+}
+
+dumpsqls() {
+    set -x;
+    mysqldump -u root --password='' cloud > cloud.sql;
+    mysqldump -u root --password='' cloud_usage > cloud_usage.sql;
+    mysqldump -u root --password='' cloudbridge > cloudbridge.sql;
+}
+
+loadsqls() {
+    set -x;
+    mysql -u root --password='' cloud < cloud.sql;
+    mysql -u root --password='' cloud_usage < cloud_usage.sql;
+    mysql -u root --password='' cloudbridge < cloudbridge.sql;
 }
 
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
@@ -87,6 +114,19 @@ convertmp3() {
     ffmpeg -i $video -f mp3 -ab 192000 -ar 44100 -ac 2 -vn $video.mp3
     echo "Done: $video"
 }
+
+kvm_cp_jars() {
+    set -x
+    for host in ${1+"$@"};
+    do
+        echo "Cleaning /usr/share/cloudstack/agent/lib on $host:"
+        ssh root@$host "rm -fr /usr/share/cloudstack-agent/lib/*"
+        scp -v plugins/hypervisors/kvm/target/cloud-plugin-hypervisor-kvm-4.5.2-SNAPSHOT.jar root@"$host":/usr/share/cloudstack-agent/lib/
+        scp -v plugins/hypervisors/kvm/target/dependencies/* root@"$host":/usr/share/cloudstack-agent/lib/
+        echo "Host is setup now $host"
+    done
+}
+
 convertflac() {
   for video in *; do
     f=`echo $video | tr ' ' '_'`
@@ -131,12 +171,15 @@ if [[ `uname` == 'Darwin' ]]; then
   export PATH=~/.rvm/bin:/Bhaisaab/Lab/apache/cloudstack/utils/:/Bhaisaab/bin/arcanist/bin/:$PATH
 fi
 
+export MAVEN_OPTS="-Xmx4096m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
 export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M"
 export GOROOT=/usr/local/go
-export GOPATH=/Bhaisaab/Lab/golang/
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin/
+export GOPATH=/home/bhaisaab/Lab/golang/
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin/:/opt/apache-maven-3.2.1/bin:$HOME/bin
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export ANSIBLE_HOST_KEY_CHECKING=False
+export GRADLE_HOME="/opt/gradle/gradle-2.10"
+export PATH=$PATH:$GRADLE_HOME
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

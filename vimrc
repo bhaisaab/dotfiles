@@ -69,6 +69,7 @@ set ignorecase               " Ignore case in searches
 set smartcase                " ... unless the search term has caps
 set iskeyword+=_,$,@,%,#     " Chars not to be word separators
 set showcmd                  " Show commands being typed
+set viminfo='20,<1000,s10,h
 set viminfo+=%               " Save/restore buffer list
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

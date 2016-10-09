@@ -7,6 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo Installing dotfiles from $DIR
 
 git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+cp zsh-themes/* ~/.oh-my-zsh/themes/
 
 ln -sf $DIR/bin ~/bin
 ln -sf $DIR/aliasrc ~/.aliasrc

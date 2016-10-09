@@ -1,38 +1,6 @@
-z() { ssh -C2qTnN -D 8080 bhaisaab@baagi.org -v -p 1123; }
-zu() { ssh -C2qTnN -D 8080 -v bhaisaab@people.apache.org; }
-zhome() { ssh -C2qTnN -D 8080 -p 1009 -v pi@573.bhaisaab.org; }
-sshapache() { ssh bhaisaab@people.apache.org -Cv; }
-sshbaagi() { ssh -Cv -p 1009 bhaisaab@baagi.org; }
-sshhome() { ssh -Cv -p 1009 -v pi@573.bhaisaab.org; }
+sshhome() { ssh -Cv -p 1009 -v pi@573.yadav.xyz; }
 
 ### Git helpers
-
-st () {
-  git status
-}
-
-daff() {
-  root=$PWD;
-  src=$1;
-  dest=$(readlink -m $2);
-  cd $src;
-  echo "started at $root, moved into $src; diffing against $dest";
-  for file in $(find . -type f -exec file {} + | grep text | awk '{print substr($1, 0, length($1)-1)}' | grep -v jar)
-  do
-    diff -Naur $root/$src/$file $root/$dest/$file;
-  done
-  cd $root;
-}
-
-fdiff() {
-  IFS=$'\n'
-  set -f
-  src=$1
-  dst=$2
-  for f in $(find $src -type f); do
-    md5 $f;
-  done
-}
 
 pull() {
   set -x;
@@ -52,6 +20,8 @@ push() {
   git push origin $branch;
 }
 
+### CloudStack hacks
+
 dumpdb() {
   set -x
   mysqldump -u root  cloud > cloud.sql
@@ -66,120 +36,35 @@ loaddb() {
   mysql -u root cloudbridge < cloudbridge.sql
 }
 
-### CloudStack hacks
-
-buildacsfast() {
-  set -x;
-  mvn -pl `git status --porcelain |sed -n '/\/src/p'| awk '{print $2}' |sed 's/\/src/$/'|cut -d $ -f 1|uniq |tr "\n" "," |sed 's/,$/,client/'` clean install
-}
-
-dumpsqls() {
-    set -x;
-    mysqldump -u root --password='' cloud > cloud.sql;
-    mysqldump -u root --password='' cloud_usage > cloud_usage.sql;
-    mysqldump -u root --password='' cloudbridge > cloudbridge.sql;
-}
-
-loadsqls() {
-    set -x;
-    mysql -u root --password='' cloud < cloud.sql;
-    mysql -u root --password='' cloud_usage < cloud_usage.sql;
-    mysql -u root --password='' cloudbridge < cloudbridge.sql;
-}
+### Backup methods
 
 backupnow() { echo "Launching secret backup program"; sh /media/chandrama/take-backup.sh;}
 
-resumeablescp() {
-  # rsync -av -P -e "ssh -l username" file serverpath
-  rsync -av -P -e "ssh -l bhaisaab" $*
-}
 
-todo() {
-  cd /Bhaisaab/Lab/todos
-  git commit --allow-empty -m "TODO: $*"
-  cd -
-}
+### General exports
 
-
-#Multimedia hacks, mostly linux
-#nohup cmus &
-#cmus-remote -p
-mix() { cmus-remote -n -k 40; }
-dj() { while [ 1==1 ]; do mix; sleep 16; done }
-convertmp3() {
-    f=`echo $1 | tr ' ' '_'`
-    mv "$1" $f
-    video=$f
-    echo "processing: $video"
-    ffmpeg -i $video -f mp3 -ab 192000 -ar 44100 -ac 2 -vn $video.mp3
-    echo "Done: $video"
-}
-
-kvm_cp_jars() {
-    set -x
-    for host in ${1+"$@"};
-    do
-        echo "Cleaning /usr/share/cloudstack/agent/lib on $host:"
-        ssh root@$host "rm -fr /usr/share/cloudstack-agent/lib/*"
-        scp -v plugins/hypervisors/kvm/target/cloud-plugin-hypervisor-kvm-4.5.2-SNAPSHOT.jar root@"$host":/usr/share/cloudstack-agent/lib/
-        scp -v plugins/hypervisors/kvm/target/dependencies/* root@"$host":/usr/share/cloudstack-agent/lib/
-        echo "Host is setup now $host"
-    done
-}
-
-convertflac() {
-  for video in *; do
-    f=`echo $video | tr ' ' '_'`
-    mv "$video" $f
-    video=$f
-    echo "processing: $video"
-    ffmpeg -i $video -f flac -ab 192000 -ar 44100 -ac 2 -vn $video.flac
-    echo "Done: $video"
-  done
-}
-
-recordvideo() { sudo ffmpeg -f alsa -ac 1 -i hw:1,0 -f video4linux2 -s 320x240 -i /dev/video0 -r 30 stream.mpg; }
-
-scpatch() {
-  if [[ $# -eq 2 ]];
-  then
-    dest=$2;
-  else
-    dest=cloudstack;
-  fi;
-  scp -Cv -P 1123 $1 bhaisaab@baagi.org:bhaisaab.org/patches/$dest
-}
-
-if [[ `uname` == 'Darwin' ]]; then
-  downlogdisable() {
-    defaults write com.apple.LaunchServices LSQuarantine -bool NO;
-  }
-  downlogdel() {
-    sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'select LSQuarantineDataURLString from LSQuarantineEvent';
-  }
-  downloglist() {
-    sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent';
-  }
-
-  export PATH=/Bhaisaab/bin:/Bhaisaab/bin/ant/bin:/opt/local/bin:/opt/local/sbin:/usr/local/mysql/bin:/usr/local/sbin:/usr/local/bin:$PATH
-  export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
-  export CATALINA_HOME=/usr/local/apache-tomcat-6.0.33
-  export M2_HOME=/usr/local/maven/
-  export PATH=$M2_HOME/bin:$PATH
-  # RVM env fix
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home
-  export PATH=~/.rvm/bin:/Bhaisaab/Lab/apache/cloudstack/utils/:/Bhaisaab/bin/arcanist/bin/:$PATH
-fi
-
-export MAVEN_OPTS="-Xmx4096m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
-export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M"
-export GOROOT=/usr/local/go
-export GOPATH=/home/bhaisaab/Lab/golang/
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin/:/opt/apache-maven-3.2.1/bin:$HOME/bin
+# Utf8 exports
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export ANSIBLE_HOST_KEY_CHECKING=False
-export GRADLE_HOME="/opt/gradle/gradle-2.10"
-export PATH=$PATH:$GRADLE_HOME
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# Local apps
+export PATH=$HOME/bin:$PATH
+
+# Golang exports
+export GOPATH=$HOME/Lab/golang
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+
+# Maven exports
+export MAVEN_OPTS="-Xmx4096m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
+
+# Jenv
+#export PATH="$HOME/.jenv/bin:$PATH"
+#eval "$(jenv init -)"
+
+# Pyenv
+#export PATH="$HOME/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+
+# Tooling exports
+export PATH="/usr/local/heroku/bin:$PATH"

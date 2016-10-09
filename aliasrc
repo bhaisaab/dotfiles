@@ -43,6 +43,9 @@ hsync() { echo "Syncing to Helium!"; bash -x ~/bin/hsync.sh; }
 
 ### General exports
 
+# Zsh tmux issue fix
+alias tmux='tmux -u'
+
 # Utf8 exports
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8

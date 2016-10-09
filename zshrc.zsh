@@ -35,7 +35,12 @@ if [[ `uname` == 'Linux' ]]; then
   eval `dircolors ~/.dircolors`
 fi
 
-source ~/.aliasrc
+#source ~/.aliasrc
+
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/Lab/golang
+export PATH=$PATH:$GOROOT/bin
+alias tmux='tmux -u'
 
 unsetopt correct_all
 

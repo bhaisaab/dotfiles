@@ -9,10 +9,10 @@ echo "Installing common pip packages"
 pip install --upgrade cloudmonkey youtube-dl ansible pip
 
 echo "Installing 3rd party apps"
-apt-get install -y skype flash-plugin-installer
+apt-get install -y skype flashplugin-installer
 
 echo "Installing golang 1.7"
-cd tmp && wget https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.7.1.linux-amd64.tar.gz
+cd /tmp && wget https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz && tar -C /usr/local -xzf go1.7.1.linux-amd64.tar.gz
 
 echo "Installing chrome"
 wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -

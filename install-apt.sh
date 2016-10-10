@@ -26,3 +26,5 @@ apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E8
 apt-get update
 apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual docker-engine
 
+echo "Cleaning up junk"
+apt-get remove --purge unity-scope-yelp unity-webapps-common

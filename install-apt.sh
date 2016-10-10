@@ -1,5 +1,5 @@
 echo "Installing common packages on Ubuntu"
-apt-get install -y vim tmux git tig screen irssi mutt bc bzip2 cmake cmus cowsay python-pip python-setuptools ipython dia fakeroot festival gcc g++ ghc gnupg gzip guake jq build-essential mysql-client nasm ntfs-3g gparted openssh-server openssh-client pv qbittorrent qemu-kvm qemu-system-x86 qemu-utils virt-manager rsync sshpass tcpdump unrar zip unzip vlc wireshark wget curl zsh ubuntu-tweak-tool gimp audacity htop laptop-mode-tools mercurial network-manager-openvpn p7zip-full p7zip-rar apt-transport-https ca-certificates
+apt-get install -y vim tmux git tig screen irssi mutt bc bzip2 cmake cmus cowsay python-pip python-setuptools ipython dia fakeroot festival gcc g++ ghc gnupg gzip guake jq build-essential mysql-client nasm ntfs-3g gparted openssh-server openssh-client pv qbittorrent qemu-kvm qemu-system-x86 qemu-utils virt-manager rsync sshpass tcpdump unrar zip unzip vlc wireshark wget curl zsh unity-tweak-tool gimp audacity htop laptop-mode-tools mercurial network-manager-openvpn p7zip-full p7zip-rar apt-transport-https ca-certificates
 
 echo "Installing common development libraries"
 

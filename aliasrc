@@ -36,6 +36,29 @@ loaddb() {
   mysql -u root cloudbridge < cloudbridge.sql
 }
 
+agentscp() {
+  ROOT=$PWD
+  echo "[acs agent] Syncing changes to agent: $1"
+  scp systemvm/dist/systemvm.iso  root@$1:/usr/share/cloudstack-common/vms/
+  echo "[acs agent] Copied systemvm.iso"
+  cd scripts
+  scp -r . root@$1:/usr/share/cloudstack-common/scripts/
+  echo "[acs agent] Copied scripts"
+  cd $ROOT/plugins/hypervisors/kvm/target
+  cp *jar dependencies
+  cd dependencies
+  ssh root@$1 "rm -f /usr/share/cloudstack-agent/lib/*jar"
+  scp -r . root@$1:/usr/share/cloudstack-agent/lib/
+  echo "[acs agent] Copied jars"
+  cd $ROOT
+}
+
+### VPN, socks
+
+runsocksproxy() {
+    ssh -D 2005 -f -C -v -N root@hydra.yadav.xyz
+}
+
 ### Backup methods
 
 backupnow() { echo "Launching secret backup program"; bash -x ~/bin/backup.sh; }
@@ -61,13 +84,13 @@ export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 export MAVEN_OPTS="-Xmx4096m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
 
 # Jenv
-#export PATH="$HOME/.jenv/bin:$PATH"
-#eval "$(jenv init -)"
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
 
 # Pyenv
-#export PATH="$HOME/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Tooling exports
 export PATH="/usr/local/heroku/bin:$PATH"

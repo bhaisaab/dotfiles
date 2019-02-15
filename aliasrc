@@ -22,18 +22,19 @@ push() {
 
 ### CloudStack hacks
 
+# ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
 dumpdb() {
   set -x
   mysqldump -u root  cloud > cloud.sql
   mysqldump -u root  cloud_usage > cloud_usage.sql
-  mysqldump -u root  cloudbridge > cloudbridge.sql
+  #mysqldump -u root  cloudbridge > cloudbridge.sql
 }
 
 loaddb() {
   set -x
   mysql -u root cloud < cloud.sql
   mysql -u root cloud_usage < cloud_usage.sql
-  mysql -u root cloudbridge < cloudbridge.sql
+  #mysql -u root cloudbridge < cloudbridge.sql
 }
 
 agentscp() {

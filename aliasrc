@@ -27,6 +27,7 @@ dumpdb() {
   set -x
   mysqldump -u root  cloud > cloud.sql
   mysqldump -u root  cloud_usage > cloud_usage.sql
+  mysqldump -u root  simulator > simulator.sql
   #mysqldump -u root  cloudbridge > cloudbridge.sql
 }
 
@@ -35,23 +36,6 @@ loaddb() {
   mysql -u root cloud < cloud.sql
   mysql -u root cloud_usage < cloud_usage.sql
   #mysql -u root cloudbridge < cloudbridge.sql
-}
-
-agentscp() {
-  ROOT=$PWD
-  echo "[acs agent] Syncing changes to agent: $1"
-  scp systemvm/dist/systemvm.iso  root@$1:/usr/share/cloudstack-common/vms/
-  echo "[acs agent] Copied systemvm.iso"
-  cd scripts
-  scp -r . root@$1:/usr/share/cloudstack-common/scripts/
-  echo "[acs agent] Copied scripts"
-  cd $ROOT/plugins/hypervisors/kvm/target
-  cp *jar dependencies
-  cd dependencies
-  ssh root@$1 "rm -f /usr/share/cloudstack-agent/lib/*jar"
-  scp -r . root@$1:/usr/share/cloudstack-agent/lib/
-  echo "[acs agent] Copied jars"
-  cd $ROOT
 }
 
 ### VPN, socks
@@ -78,20 +62,22 @@ export LANG=en_US.UTF-8
 export PATH=$HOME/bin:$PATH
 
 # Golang exports
-export GOPATH=$HOME/Lab/golang
+export GOPATH=$HOME/lab/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 # Maven exports
-export MAVEN_OPTS="-Xmx4096m -XX:MaxPermSize=500m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
+export MAVEN_OPTS="-Xmx4096m -Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
 
 # Jenv
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
 # Pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#export PATH="$HOME/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 
-# Tooling exports
-export PATH="/usr/local/heroku/bin:$PATH"
+source ~/lab/apache/monkeybox/aliasrc
+
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
